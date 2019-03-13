@@ -1,11 +1,12 @@
-# gatsby-source-woocommerce
+# Note
+**Please note: the original author of this package is [Marc Glasser](https://github.com/marcaaron/) -- see the [the original repo](https://github.com/marcaaron/gatsby-source-woocommerce) and [package](https://www.npmjs.com/package/gatsby-source-woocommerce). This is a modified version for my use to avoid having to manually overwrite the files every time I change my packages in development.**
 
+# gatsby-source-woocommerce
 Source plugin for [Gatsby](https://www.gatsbyjs.org/). Pulls in data from protected routes via the [WooCommerce REST API](http://woocommerce.github.io/woocommerce-rest-api-docs/) with credentials.
 
-Forked from [the original](https://github.com/marcaaron/gatsby-source-woocommerce)
 ## Install
 
-`npm install --save gatsby-source-woocommerce`
+`npm install --save @pasdo501/gatsby-source-woocommerce`
 
 ## How to Use
 

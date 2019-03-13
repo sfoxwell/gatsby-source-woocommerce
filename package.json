@@ -1,6 +1,6 @@
 {
   "name": "@pasdo501/gatsby-source-woocommerce",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Gatsby source plugin for WooCommerce, scoped to avoid having to manually overwrite changes while pull request is open (or forever)",
   "main": "gatsby-node.js",
   "scripts": {
