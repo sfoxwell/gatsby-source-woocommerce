@@ -2,6 +2,7 @@
 
 Source plugin for [Gatsby](https://www.gatsbyjs.org/). Pulls in data from protected routes via the [WooCommerce REST API](http://woocommerce.github.io/woocommerce-rest-api-docs/) with credentials.
 
+Forked from [the original](https://github.com/marcaaron/gatsby-source-woocommerce)
 ## Install
 
 `npm install --save gatsby-source-woocommerce`
