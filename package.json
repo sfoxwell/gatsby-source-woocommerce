@@ -1,6 +1,6 @@
 {
   "name": "@pasdo501/gatsby-source-woocommerce",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Gatsby source plugin for WooCommerce, scoped to avoid having to manually overwrite changes while pull request is open (or forever)",
   "main": "gatsby-node.js",
   "scripts": {
@@ -10,5 +10,9 @@
   "license": "ISC",
   "dependencies": {
     "woocommerce-api": "^1.4.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pasdo501/gatsby-source-woocommerce/tree/package"
   }
 }
