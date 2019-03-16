@@ -1,7 +1,7 @@
 {
   "name": "@pasdo501/gatsby-source-woocommerce",
-  "version": "0.1.2",
-  "description": "Gatsby source plugin for WooCommerce, scoped to avoid having to manually overwrite changes while pull request is open (or forever)",
+  "version": "0.1.3",
+  "description": "Modified gatsby source plugin for WooCommerce with improved field type support, scoped to avoid having to manually overwrite changes while pull request is open (or forever)",
   "main": "gatsby-node.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,5 +14,12 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/pasdo501/gatsby-source-woocommerce/tree/package"
-  }
+  },
+  "keywords": [
+    "gatsby",
+    "gatsby-plugin",
+    "gatsby-source-plugin",
+    "woocommerce",
+    "gatsby woocommerce"
+  ]
 }
