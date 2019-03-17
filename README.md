@@ -102,3 +102,6 @@ Specific product by wordpress ID:
   }
 }
 ```
+
+## Changelog
+- 0.3.0: Associated products & product categories with local file images downloaded during the build process to allow use of image transform plugins.
