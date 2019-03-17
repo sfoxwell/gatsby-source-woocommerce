@@ -49,7 +49,7 @@ Definitive:
 
 For example, to get product categories: including 'products/categories' in fields will show up as allWcProductsCategories / wcProductsCategories
 
-## Sine GraphQL Query Examples
+## Some GraphQL Query Examples
 
 All products (with associated images):
 ```
