@@ -38,6 +38,7 @@ plugins:[
 
 ## Currently Supported Fields
 
+Definitive: 
 - Products
 - Customers
 - Orders
@@ -47,3 +48,57 @@ plugins:[
 **Note**: If following the endpoint layout from the [WooCommerce REST API docs](https://woocommerce.github.io/woocommerce-rest-api-docs/?php#introduction), all fields that do not contain a wildcard *should* be supported.
 
 For example, to get product categories: including 'products/categories' in fields will show up as allWcProductsCategories / wcProductsCategories
+
+## Sine GraphQL Query Examples
+
+All products (with associated images):
+```
+{
+  allWcProducts {
+    edges {
+      node {
+        id
+        wordpress_id
+        name
+        images {
+          localFile {
+            // childImageSharp ... etc
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+All product categories (with associated image):
+```
+{
+  allWcProductsCategories {
+    edges {
+      node {
+        id
+        wordpress_id
+        name
+        slug
+        image {
+          localFile {
+            // childImageSharp ... etc
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+Specific product by wordpress ID:
+```
+{
+  wcProducts(wordpress_id: {eq: 12}) {
+    name
+    price
+    related_ids
+  }
+}
+```
