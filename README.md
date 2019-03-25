@@ -14,7 +14,7 @@ Source plugin for [Gatsby](https://www.gatsbyjs.org/). Pulls in data from protec
 // In gatsby-config.js
 plugins:[
   {       
-    resolve: "@pasdo501/gatsby-source-woocommerce",
+    resolve: '@pasdo501/gatsby-source-woocommerce',
     options: {
 	   // Base URL of Wordpress site
       api: 'wordpress.domain',
@@ -104,4 +104,5 @@ Specific product by wordpress ID:
 ```
 
 ## Changelog
+- 0.3.2: Minor refactor, no notable changes in functionality
 - 0.3.0: Associated products & product categories with local file images downloaded during the build process to allow use of image transform plugins.

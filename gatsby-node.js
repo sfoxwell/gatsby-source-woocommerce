@@ -6,7 +6,7 @@ const {
 } = require("./helpers")
 
 exports.sourceNodes = async (
-  { actions, createNodeId, store, cache },
+  { actions, createNodeId, createContentDigest, store, cache },
   configOptions
 ) => {
   const { createNode, touchNode } = actions
@@ -53,7 +53,9 @@ exports.sourceNodes = async (
         touchNode,
       })
 
-      nodes.forEach(n => createNode(processNode(createNodeId, n, fieldName)))
+      nodes.forEach(n =>
+        createNode(processNode(createNodeId, createContentDigest, n, fieldName))
+      )
     }
   }
 

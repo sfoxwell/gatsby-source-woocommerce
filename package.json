@@ -1,6 +1,6 @@
 {
   "name": "@pasdo501/gatsby-source-woocommerce",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Modified gatsby source plugin for WooCommerce with improved field type support, scoped to avoid having to manually overwrite changes while pull request is open (or forever)",
   "main": "gatsby-node.js",
   "scripts": {

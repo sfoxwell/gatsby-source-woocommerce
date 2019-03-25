@@ -1,25 +1,20 @@
-const crypto = require("crypto")
 const { createRemoteFileNode } = require(`gatsby-source-filesystem`)
 
-const processNode = (createNodeId, node, fieldName) => {
-  const nodeId = createNodeId(`woocommerce-${fieldName}-${node.id}`)
+const processNode = (createNodeId, createContentDigest, node, fieldName) => {
   const nodeContent = JSON.stringify(node)
-  const nodeContentDigest = crypto
-    .createHash("md5")
-    .update(nodeContent)
-    .digest("hex")
 
   const nodeData = Object.assign({}, node, {
-    id: nodeId,
+    id: createNodeId(`woocommerce-${fieldName}-${node.id}`),
     wordpress_id: node["id"],
     parent: null,
     children: [],
     internal: {
-      type: `WC${capitalize(fieldName)}`,
+      type: `wc${capitalize(fieldName)}`,
       content: nodeContent,
-      contentDigest: nodeContentDigest,
+      contentDigest: createContentDigest(nodeContent),
     },
   })
+
   return nodeData
 }
 
