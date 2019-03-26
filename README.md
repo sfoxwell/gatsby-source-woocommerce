@@ -1,5 +1,5 @@
 # Note
-**Please note: the original author of this package is [Marc Glasser](https://github.com/marcaaron/) -- see the [the original repo](https://github.com/marcaaron/gatsby-source-woocommerce) and [package](https://www.npmjs.com/package/gatsby-source-woocommerce). This is a modified version for my use to avoid having to manually overwrite the files every time I change my packages in development.**
+**Please note: the original author of this package is [Marc Glasser](https://github.com/marcaaron/) -- see the [the original repo](https://github.com/marcaaron/gatsby-source-woocommerce) and [package](https://www.npmjs.com/package/gatsby-source-woocommerce).**
 
 # gatsby-source-woocommerce
 Source plugin for [Gatsby](https://www.gatsbyjs.org/). Pulls in data from protected routes via the [WooCommerce REST API](http://woocommerce.github.io/woocommerce-rest-api-docs/) with credentials.
@@ -51,7 +51,7 @@ For example, to get product categories: including 'products/categories' in field
 
 ## Some GraphQL Query Examples
 
-All products (with associated images):
+### All products (with associated images):
 ```
 {
   allWcProducts {
@@ -71,7 +71,7 @@ All products (with associated images):
 }
 ```
 
-All product categories (with associated image):
+### All product categories (with associated image):
 ```
 {
   allWcProductsCategories {
@@ -92,7 +92,7 @@ All product categories (with associated image):
 }
 ```
 
-Specific product by wordpress ID:
+### Specific product by wordpress ID:
 ```
 {
   wcProducts(wordpress_id: {eq: 12}) {
@@ -102,7 +102,25 @@ Specific product by wordpress ID:
   }
 }
 ```
+### Specific product category with associated products
+```
+{
+  wcProductsCategories(wordpress_id: {eq: 20}) {
+     name
+     slug
+     products {
+       name
+       price
+       images {
+         localFile {
+           // childImageSharp ... etc
+         }
+       }
+     }
+   }
+}
+```
 
 ## Changelog
-- 0.3.2: Minor refactor, no notable changes in functionality
+- 0.3.2: Mapping products & categories to each other
 - 0.3.0: Associated products & product categories with local file images downloaded during the build process to allow use of image transform plugins.

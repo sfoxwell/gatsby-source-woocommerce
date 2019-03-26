@@ -1,6 +1,8 @@
 const { createRemoteFileNode } = require(`gatsby-source-filesystem`)
 
-const processNode = (createNodeId, createContentDigest, node, fieldName) => {
+const processNode = (createNodeId, createContentDigest, node) => {
+  const { fieldName } = node
+  delete node.fieldName
   const nodeContent = JSON.stringify(node)
 
   const nodeData = Object.assign({}, node, {
@@ -16,6 +18,37 @@ const processNode = (createNodeId, createContentDigest, node, fieldName) => {
   })
 
   return nodeData
+}
+
+// Create links between products and categories (bi-directional)
+const mapProductsToCategories = nodes => {
+  const categories = nodes.filter(
+    node => node.internal.type === "wcProductsCategories"
+  )
+
+  return nodes.map(node => {
+    if (categories.length && node.internal.type === "wcProducts") {
+      node.categories.forEach(({ id }) => {
+        const category = categories.find(c => id === c.wordpress_id)
+        if (category) {
+          if (!node.categories_conection___NODE) {
+            // Initialise the connection array if necessary
+            node.categories_connection___NODE = []
+          }
+          // Add the current category ID to the connection array
+          node.categories_connection___NODE.push(category.id)
+
+          if (!category.products___NODE) {
+            // Initialise the product connection array if necessary
+            category.products___NODE = []
+          }
+          // Add the current product's ID to the connection array
+          category.products___NODE.push(node.id)
+        }
+      })
+    }
+    return node
+  })
 }
 
 // Turn multi part endpoints into camelCase
@@ -45,7 +78,7 @@ const downloadMedia = async ({
 
   if (cacheMediaData && n.modified === cacheMediaData.modified) {
     fileNodeID = cacheMediaData.fileNodeID
-    touchNode({ nodeId: cacheMediaData.fileNodeID })
+    touchNode({ nodeId: fileNodeID })
   }
 
   if (!fileNodeID) {
@@ -118,7 +151,12 @@ const mapMediaToNodes = async ({
   )
 }
 
-module.exports = { processNode, normaliseFieldName, mapMediaToNodes }
+module.exports = {
+  processNode,
+  normaliseFieldName,
+  mapMediaToNodes,
+  mapProductsToCategories,
+}
 
 // Helper Helpers
 function capitalize(s) {

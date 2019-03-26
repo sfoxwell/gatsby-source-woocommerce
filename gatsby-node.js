@@ -3,6 +3,7 @@ const {
   processNode,
   normaliseFieldName,
   mapMediaToNodes,
+  mapProductsToCategories,
 } = require("./helpers")
 
 exports.sourceNodes = async (
@@ -41,22 +42,34 @@ exports.sourceNodes = async (
 
   // Loop over each field set in configOptions and process/create nodes
   async function fetchNodesAndCreate(array) {
+    let nodes = []
     for (const field of array) {
-      let nodes = await fetchNodes(field)
       const fieldName = normaliseFieldName(field)
-      nodes = await mapMediaToNodes({
-        nodes,
-        store,
-        cache,
-        createNode,
-        createNodeId,
-        touchNode,
+      let tempNodes = await fetchNodes(field)
+      tempNodes = tempNodes.map(node => {
+        return {
+          fieldName,
+          ...node,
+        }
       })
-
-      nodes.forEach(n =>
-        createNode(processNode(createNodeId, createContentDigest, n, fieldName))
-      )
+      nodes = nodes.concat(tempNodes)
     }
+
+    nodes = await mapMediaToNodes({
+      nodes,
+      store,
+      cache,
+      createNode,
+      createNodeId,
+      touchNode,
+    })
+
+    nodes = nodes.map(node =>
+      processNode(createNodeId, createContentDigest, node)
+    )
+    nodes = mapProductsToCategories(nodes)
+
+    nodes.forEach(node => createNode(node))
   }
 
   // Leh go...
