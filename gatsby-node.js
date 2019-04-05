@@ -13,7 +13,14 @@ exports.sourceNodes = async (
   const { createNode, touchNode } = actions
   delete configOptions.plugins
 
-  const { api, https, api_keys, fields, api_version = 'wc/v1', per_page } = configOptions;
+  const {
+    api,
+    https,
+    api_keys,
+    fields,
+    api_version = "wc/v1",
+    per_page,
+  } = configOptions
 
   // set up WooCommerce node api tool
   const WooCommerce = new WooCommerceAPI({
@@ -21,8 +28,8 @@ exports.sourceNodes = async (
     consumerKey: api_keys.consumer_key,
     consumerSecret: api_keys.consumer_secret,
     wpAPI: true,
-    version: api_version
-  });
+    version: api_version,
+  })
 
   // Fetch Node and turn our response to JSON
   const fetchNodes = async fieldName => {
@@ -46,12 +53,12 @@ exports.sourceNodes = async (
     for (const field of array) {
       const fieldName = normaliseFieldName(field)
       let tempNodes = await fetchNodes(field)
-      tempNodes = tempNodes.map(node => {
-        return {
-          fieldName,
-          ...node,
-        }
-      })
+      tempNodes = tempNodes.map(node => ({
+        ...node,
+        id: createNodeId(`woocommerce-${fieldName}-${node.id}`),
+        wordpress_id: node.id,
+        __type: `wc${fieldName[0].toUpperCase() + fieldName.slice(1)}`,
+      }))
       nodes = nodes.concat(tempNodes)
     }
 
@@ -64,15 +71,15 @@ exports.sourceNodes = async (
       touchNode,
     })
 
-    nodes = nodes.map(node =>
-      processNode(createNodeId, createContentDigest, node)
-    )
     nodes = mapProductsToCategories(nodes)
 
-    nodes.forEach(node => createNode(node))
+    nodes = nodes.map(node => processNode(createContentDigest, node))
+
+    nodes.forEach(node => {
+      createNode(node)
+    })
   }
 
-  // Leh go...
   await fetchNodesAndCreate(fields)
   return
 }

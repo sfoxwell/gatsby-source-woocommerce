@@ -60,6 +60,9 @@ For example, to get product categories: including 'products/categories' in field
         id
         wordpress_id
         name
+        categories {
+          wordpress_id
+        }
         images {
           localFile {
             // childImageSharp ... etc
@@ -102,7 +105,7 @@ For example, to get product categories: including 'products/categories' in field
   }
 }
 ```
-### Specific product category with associated products
+### Specific product category with (associated products):
 ```
 {
   wcProductsCategories(wordpress_id: {eq: 20}) {
@@ -122,5 +125,9 @@ For example, to get product categories: including 'products/categories' in field
 ```
 
 ## Changelog
+- 0.3.3: Fixing issues related to product - category mapping, API version. (Thank you [Travis Reynolds](https://github.com/thetre97)).
+         Product categories IDs can now also be accessed with wordpress_id when no category nodes are pulled in. This is to keep access consistent,
+         whether or not categories are used. Previously, without the 'products/categories' field, product category ID was accessed as product<span />.categories.id (an integer),
+         while with the 'products/categories' field, it was product.categories.wordpress_id (since categories<span />.id is now the node ID - a string).
 - 0.3.2: Mapping products & categories to each other
 - 0.3.0: Associated products & product categories with local file images downloaded during the build process to allow use of image transform plugins.

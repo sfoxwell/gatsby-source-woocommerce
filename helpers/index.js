@@ -1,18 +1,28 @@
 const { createRemoteFileNode } = require(`gatsby-source-filesystem`)
 
-const processNode = (createNodeId, createContentDigest, node) => {
-  const { fieldName } = node
-  delete node.fieldName
+const processNode = (createContentDigest, node) => {
+  const { __type } = node
+  delete node.__type
+
+  if (__type === "wcProducts" && node.categories) {
+    node.categories.forEach(category => {
+      // Add wordpress_id field when there is no
+      // categories connection to keep the id access
+      // consistent between just products & products with
+      // categories
+      category.wordpress_id = category.id
+    })
+  }
+
   const nodeContent = JSON.stringify(node)
 
   const nodeData = Object.assign({}, node, {
-    id: createNodeId(`woocommerce-${fieldName}-${node.id}`),
-    wordpress_id: node["id"],
+    id: node.id,
+    wordpress_id: node.wordpress_id,
     parent: null,
     children: [],
     internal: {
-      type: `wc${capitalize(fieldName)}`,
-      content: nodeContent,
+      type: __type,
       contentDigest: createContentDigest(nodeContent),
     },
   })
@@ -23,20 +33,21 @@ const processNode = (createNodeId, createContentDigest, node) => {
 // Create links between products and categories (bi-directional)
 const mapProductsToCategories = nodes => {
   const categories = nodes.filter(
-    node => node.internal.type === "wcProductsCategories"
+    node => node.__type === "wcProductsCategories"
   )
 
   return nodes.map(node => {
-    if (categories.length && node.internal.type === "wcProducts") {
+    if (categories.length && node.__type === "wcProducts") {
       node.categories.forEach(({ id }) => {
         const category = categories.find(c => id === c.wordpress_id)
         if (category) {
-          if (!node.categories_conection___NODE) {
+          if (!node.categories___NODE) {
             // Initialise the connection array if necessary
-            node.categories_connection___NODE = []
+            node.categories___NODE = []
           }
           // Add the current category ID to the connection array
-          node.categories_connection___NODE.push(category.id)
+          node.categories___NODE.push(category.id)
+          delete node.categories
 
           if (!category.products___NODE) {
             // Initialise the product connection array if necessary
@@ -156,9 +167,4 @@ module.exports = {
   normaliseFieldName,
   mapMediaToNodes,
   mapProductsToCategories,
-}
-
-// Helper Helpers
-function capitalize(s) {
-  return s[0].toUpperCase() + s.slice(1)
 }

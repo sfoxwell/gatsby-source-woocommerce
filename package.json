@@ -1,12 +1,12 @@
 {
   "name": "@pasdo501/gatsby-source-woocommerce",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Gatsby source plugin for WooCommerce with improved field type support",
   "main": "gatsby-node.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Dominik Paschke",
+  "author": "Dominik Paschke, forked from Marc Glasser",
   "license": "ISC",
   "dependencies": {
     "gatsby-source-filesystem": "^2.0.27",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/pasdo501/gatsby-source-woocommerce/tree/package"
+    "url": "https://github.com/pasdo501/gatsby-source-woocommerce"
   },
   "keywords": [
     "gatsby",
