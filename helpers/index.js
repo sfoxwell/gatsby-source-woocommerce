@@ -47,7 +47,6 @@ const mapProductsToCategories = nodes => {
           }
           // Add the current category ID to the connection array
           node.categories___NODE.push(category.id)
-          delete node.categories
 
           if (!category.products___NODE) {
             // Initialise the product connection array if necessary
@@ -57,6 +56,45 @@ const mapProductsToCategories = nodes => {
           category.products___NODE.push(node.id)
         }
       })
+      if (node.categories___NODE) {
+        // Remove the old categories field if
+        // nodes are now being referenced
+        delete node.categories
+      }
+    }
+    return node
+  })
+}
+
+const mapProductsToTags = nodes => {
+  const tags = nodes.filter(node => node.__type === "wcProductsTags")
+
+  return nodes.map(node => {
+    if (tags.length && node.__type === "wcProducts") {
+      node.tags.forEach(({ id }) => {
+        const tag = tags.find(t => id === t.wordpress_id)
+        if (tag) {
+          if (!node.tags___NODE) {
+            // Initialise the connection array if necessary
+            node.tags___NODE = []
+          }
+          // Add the current tag ID to the connection array
+          node.tags___NODE.push(tag.id)
+
+          if (!tag.products___NODE) {
+            // Initialise the connection array if necessary
+            tag.products___NODE = []
+          }
+
+          //Add the current product's ID to the connection array
+          tag.products___NODE.push(node.id)
+        }
+      })
+      if (node.tags___NODE) {
+        // Remove the old tags field if
+        // nodes are now being referenced
+        delete node.tags
+      }
     }
     return node
   })
@@ -167,4 +205,5 @@ module.exports = {
   normaliseFieldName,
   mapMediaToNodes,
   mapProductsToCategories,
+  mapProductsToTags,
 }

@@ -124,7 +124,23 @@ For example, to get product categories: including 'products/categories' in field
 }
 ```
 
+### All Product Tags and their associated products:
+```
+{
+  allWcProductsTags {
+    nodes {
+      name
+      count
+      products {
+        name
+      }
+    }
+  }
+}
+```
+
 ## Changelog
+- 0.3.4: Mapping products & tags to each other
 - 0.3.3: Fixing issues related to product - category mapping, API version. (Thank you [Travis Reynolds](https://github.com/thetre97)).
          Product categories IDs can now also be accessed with wordpress_id when no category nodes are pulled in. This is to keep access consistent,
          whether or not categories are used. Previously, without the 'products/categories' field, product category ID was accessed as product<span />.categories.id (an integer),

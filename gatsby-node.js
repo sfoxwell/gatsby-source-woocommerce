@@ -4,6 +4,7 @@ const {
   normaliseFieldName,
   mapMediaToNodes,
   mapProductsToCategories,
+  mapProductsToTags,
 } = require("./helpers")
 
 exports.sourceNodes = async (
@@ -72,6 +73,7 @@ exports.sourceNodes = async (
     })
 
     nodes = mapProductsToCategories(nodes)
+    nodes = mapProductsToTags(nodes)
 
     nodes = nodes.map(node => processNode(createContentDigest, node))
 
