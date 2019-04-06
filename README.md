@@ -165,7 +165,7 @@ import Img from "gatsby-image"
 export default ({ data }) => (
   <div>
     <h1>Hello gatsby-image</h1>
-    <Img fluid={data.wcProducts.images[0].localFile.childImageSharp.fixed} alt={data.wcProducts.images[0].alt} />
+    <Img fluid={data.wcProducts.images[0].localFile.childImageSharp.fluid} alt={data.wcProducts.images[0].alt} />
   </div>
 )
 
@@ -241,6 +241,7 @@ Some example queries for the fixed and fluid types are below.
 
 ### Resize
 
+```graphql
 {
   wcProducts (slug: {
     eq: "test-product"
@@ -259,6 +260,7 @@ Some example queries for the fixed and fluid types are below.
     }
   }
 }
+```
 
 You can visit [gatsby-image](https://www.gatsbyjs.org/packages/gatsby-image/) for more information, and to learn about the different types of queries.
 
