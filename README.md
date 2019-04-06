@@ -139,6 +139,129 @@ For example, to get product categories: including 'products/categories' in field
 }
 ```
 
+## Integration with `gatsby-image`
+
+You use images coming from this plugin with [gatsby-image](https://www.gatsbyjs.org/packages/gatsby-image/). `gatsby-image` is a React component specially designed to work seamlessly with Gatsby’s GraphQL queries. It combines Gatsby’s native image processing capabilities with advanced image loading techniques to easily and completely optimize image loading for your sites.
+
+To use this, you will first need to install and configure it and its dependencies.
+
+```bash
+npm install gatsby-image gatsby-transformer-sharp gatsby-plugin-sharp
+```
+
+Then add these plugins to `gatsby-config.js`:
+
+```javascript
+plugins: [`gatsby-transformer-sharp`, `gatsby-plugin-sharp`]
+```
+
+You can then use the `gatsby-image` component:
+
+```javascript
+import React from "react"
+import { graphql } from "gatsby"
+import Img from "gatsby-image"
+
+export default ({ data }) => (
+  <div>
+    <h1>Hello gatsby-image</h1>
+    <Img fluid={data.wcProducts.images[0].localFile.childImageSharp.fixed} alt={data.wcProducts.images[0].alt} />
+  </div>
+)
+
+export const query = graphql`
+  query allProducts {
+     wcProducts (slug: {
+        eq: "test-product"
+      }) {
+        id
+        name
+        images {
+          alt
+          localFile {
+            childImageSharp {
+              fluid {
+                ...GatsbyImageSharpFluid
+              }
+            }
+          }
+        }
+      }
+  }
+`
+```
+
+Some example queries for the fixed and fluid types are below.
+
+### Responsive Fluid
+
+```graphql
+{
+  wcProducts (slug: {
+    eq: "test-product"
+  }) {
+    id
+    name
+    images {
+      alt
+      localFile {
+        childImageSharp {
+          fluid (maxWidth: 800, cropFocus: CENTER) {
+            ...GatsbyImageSharpFluid
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+### Responsive Fixed
+
+```graphql
+{
+  wcProducts (slug: {
+    eq: "test-product"
+  }) {
+    id
+    name
+    images {
+      alt
+      localFile {
+        childImageSharp {
+          fixed (width: 800, toFormat: JPG) {
+            ...GatsbyImageSharpFixed
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+### Resize
+
+{
+  wcProducts (slug: {
+    eq: "test-product"
+  }) {
+    id
+    name
+    images {
+      alt
+      localFile {
+        childImageSharp {
+          resize (width: 800, height: 600, cropFocus: CENTER, quality: 80) {
+            src
+          }
+        }
+      }
+    }
+  }
+}
+
+You can visit [gatsby-image](https://www.gatsbyjs.org/packages/gatsby-image/) for more information, and to learn about the different types of queries.
+
 ## Changelog
 - 0.3.4: Mapping products & tags to each other
 - 0.3.3: Fixing issues related to product - category mapping, API version. (Thank you [Travis Reynolds](https://github.com/thetre97)).
