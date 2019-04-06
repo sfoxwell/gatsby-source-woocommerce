@@ -4,6 +4,14 @@
 # gatsby-source-woocommerce
 Source plugin for [Gatsby](https://www.gatsbyjs.org/). Pulls in data from protected routes via the [WooCommerce REST API](http://woocommerce.github.io/woocommerce-rest-api-docs/) with credentials.
 
+## Contents
+- [Install](#install)
+- [How to Use](#how-to-use)
+- [Currently Supported Fields](#currently-supported-fields)
+- [GraphQL Query Examples](#some-graphql-query-examples)
+- [Integration with gatsby-image](#integration-with-gatsby-image)
+
+
 ## Install
 
 `npm install --save @pasdo501/gatsby-source-woocommerce`
