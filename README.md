@@ -52,7 +52,7 @@ For example, to get product categories: including 'products/categories' in field
 ## Some GraphQL Query Examples
 
 ### All products (with associated images):
-```
+```graphql
 {
   allWcProducts {
     edges {
@@ -75,7 +75,7 @@ For example, to get product categories: including 'products/categories' in field
 ```
 
 ### All product categories (with associated image):
-```
+```graphql
 {
   allWcProductsCategories {
     edges {
@@ -96,7 +96,7 @@ For example, to get product categories: including 'products/categories' in field
 ```
 
 ### Specific product by wordpress ID:
-```
+```graphql
 {
   wcProducts(wordpress_id: {eq: 12}) {
     name
@@ -106,7 +106,7 @@ For example, to get product categories: including 'products/categories' in field
 }
 ```
 ### Specific product category with (associated products):
-```
+```graphql
 {
   wcProductsCategories(wordpress_id: {eq: 20}) {
      name
@@ -125,7 +125,7 @@ For example, to get product categories: including 'products/categories' in field
 ```
 
 ### All Product Tags and their associated products:
-```
+```graphql
 {
   allWcProductsTags {
     nodes {
