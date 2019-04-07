@@ -149,7 +149,7 @@ For example, to get product categories: including 'products/categories' in field
 
 ## Integration with `gatsby-image`
 
-You use images coming from this plugin with [gatsby-image](https://www.gatsbyjs.org/packages/gatsby-image/). `gatsby-image` is a React component specially designed to work seamlessly with Gatsby’s GraphQL queries. It combines Gatsby’s native image processing capabilities with advanced image loading techniques to easily and completely optimize image loading for your sites.
+You can use images coming from this plugin with [gatsby-image](https://www.gatsbyjs.org/packages/gatsby-image/). `gatsby-image` is a React component specially designed to work seamlessly with Gatsby’s GraphQL queries. It combines Gatsby’s native image processing capabilities with advanced image loading techniques to easily and completely optimize image loading for your sites.
 
 To use this, you will first need to install and configure it and its dependencies.
 
@@ -273,6 +273,7 @@ Some example queries for the fixed and fluid types are below.
 You can visit [gatsby-image](https://www.gatsbyjs.org/packages/gatsby-image/) for more information, and to learn about the different types of queries.
 
 ## Changelog
+- 0.3.5: Gatsby Image related documentation c/o [Travis Reynolds](https://github.com/thetre97)
 - 0.3.4: Mapping products & tags to each other
 - 0.3.3: Fixing issues related to product - category mapping, API version. (Thank you [Travis Reynolds](https://github.com/thetre97)).
          Product categories IDs can now also be accessed with wordpress_id when no category nodes are pulled in. This is to keep access consistent,
