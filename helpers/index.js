@@ -100,6 +100,29 @@ const mapProductsToTags = nodes => {
   })
 }
 
+const mapRelatedProducts = nodes => {
+  const products = nodes.filter(node => node.__type === "wcProducts")
+
+  return nodes.map(node => {
+    if (node.__type === "wcProducts") {
+      const related_products = node.related_ids
+        ? node.related_ids.map(id => {
+            const product = products.find(
+              product => product.wordpress_id === id
+            )
+            return product ? product.id : null
+          })
+        : null
+      if (related_products) {
+        node.related_products___NODE = related_products
+      } else {
+        node.related_products = []
+      }
+    }
+    return node
+  })
+}
+
 // Turn multi part endpoints into camelCase
 // e.g. products/categories becomes productsCategories
 const normaliseFieldName = name => {
@@ -206,4 +229,5 @@ module.exports = {
   mapMediaToNodes,
   mapProductsToCategories,
   mapProductsToTags,
+  mapRelatedProducts,
 }

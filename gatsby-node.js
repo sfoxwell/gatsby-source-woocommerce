@@ -5,6 +5,7 @@ const {
   mapMediaToNodes,
   mapProductsToCategories,
   mapProductsToTags,
+  mapRelatedProducts,
 } = require("./helpers")
 
 exports.sourceNodes = async (
@@ -74,6 +75,7 @@ exports.sourceNodes = async (
 
     nodes = mapProductsToCategories(nodes)
     nodes = mapProductsToTags(nodes)
+    nodes = mapRelatedProducts(nodes)
 
     nodes = nodes.map(node => processNode(createContentDigest, node))
 

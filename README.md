@@ -113,7 +113,21 @@ For example, to get product categories: including 'products/categories' in field
   }
 }
 ```
-### Specific product category with (associated products):
+
+### Specific product by wordpress ID, with related products:
+```graphql
+{
+  wcProducts(wordpress_id: {eq: 12}) {
+    name
+    price
+    related_products {
+      name
+      // etc - same fields as a normal product
+    }
+  }
+}
+```
+### Specific product category (with associated products):
 ```graphql
 {
   wcProductsCategories(wordpress_id: {eq: 20}) {
@@ -273,6 +287,7 @@ Some example queries for the fixed and fluid types are below.
 You can visit [gatsby-image](https://www.gatsbyjs.org/packages/gatsby-image/) for more information, and to learn about the different types of queries.
 
 ## Changelog
+- 0.4.0: Also map related products as product nodes, rather than just an array of IDs
 - 0.3.5: Gatsby Image related documentation c/o [Travis Reynolds](https://github.com/thetre97)
 - 0.3.4: Mapping products & tags to each other
 - 0.3.3: Fixing issues related to product - category mapping, API version. (Thank you [Travis Reynolds](https://github.com/thetre97)).
