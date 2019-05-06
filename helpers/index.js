@@ -123,6 +123,29 @@ const mapRelatedProducts = nodes => {
   })
 }
 
+const mapGroupedProducts = nodes => {
+  const products = nodes.filter(node => node.__type === "wcProducts")
+
+  return nodes.map(node => {
+    if (node.__type === "wcProducts") {
+      const grouped_products = node.grouped_products
+        ? node.grouped_products.map(id => {
+            const product = products.find(
+              product => product.wordpress_id === id
+            )
+            return product ? product.id : null
+          })
+        : null
+      if (grouped_products) {
+        node.grouped_products_nodes___NODE = grouped_products
+      } else {
+        node.grouped_products_nodes = []
+      }
+    }
+    return node
+  })
+}
+
 // Turn multi part endpoints into camelCase
 // e.g. products/categories becomes productsCategories
 const normaliseFieldName = name => {
@@ -230,4 +253,5 @@ module.exports = {
   mapProductsToCategories,
   mapProductsToTags,
   mapRelatedProducts,
+  mapGroupedProducts,
 }
