@@ -289,6 +289,18 @@ const mapMediaToNodes = async ({
         createNodeId,
       }
 
+      if (n.product_variations && n.product_variations.length) {
+        for await (let variation of n.product_variations) {
+          const { image } = variation
+          if (image) {
+            await downloadMedia({
+              image,
+              ...commonParams,
+            })
+          }
+        }
+      }
+
       if (n.images && n.images.length) {
         await n.images.map(async image => {
           downloadMedia({

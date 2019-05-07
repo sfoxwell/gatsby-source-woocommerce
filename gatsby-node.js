@@ -66,6 +66,7 @@ exports.sourceNodes = async (
       nodes = nodes.concat(tempNodes)
     }
 
+    nodes = await asyncGetProductVariations(nodes, WooCommerce)
     nodes = await mapMediaToNodes({
       nodes,
       store,
@@ -75,7 +76,6 @@ exports.sourceNodes = async (
       touchNode,
     })
 
-    nodes = await asyncGetProductVariations(nodes, WooCommerce)
     nodes = mapProductsToCategories(nodes)
     nodes = mapProductsToTags(nodes)
     nodes = mapRelatedProducts(nodes)
