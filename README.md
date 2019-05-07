@@ -10,11 +10,16 @@ Source plugin for [Gatsby](https://www.gatsbyjs.org/). Pulls in data from protec
 - [Currently Supported Fields](#currently-supported-fields)
 - [GraphQL Query Examples](#some-graphql-query-examples)
 - [Integration with gatsby-image](#integration-with-gatsby-image)
+- [Changelog](#changelog)
 
 
 ## Install
 
 `npm install --save @pasdo501/gatsby-source-woocommerce`
+
+or 
+
+`yarn add @pasdo501/gatsby-source-woocommerce`
 
 ## How to Use
 
@@ -33,7 +38,7 @@ plugins:[
         consumer_secret: <secret>,
       },
       // Array of strings with fields you'd like to create nodes for...
-      fields: ['products'],
+      fields: ['products', 'products/categories'],
       // Version of the woocommerce API to use
       // OPTIONAL: defaults to 'wc/v1'
       api_version: 'wc/v3',
@@ -138,6 +143,30 @@ For example, to get product categories: including 'products/categories' in field
       name
       // etc - same fields as a normal product
     }
+  }
+}
+```
+
+### Specific product, with variations:
+```graphql
+{
+  wcProducts(wordpress_id: {eq: 12}) {
+    wordpress_id
+    name
+    price_html
+    product_variations {
+      # Note: ID, not wordpress_id
+      id 
+      # Note: no price_html inside variations
+      price 
+      description
+      attributes {
+        # The compination of attributes making up this variation. Missing attribute = any
+        name
+        option
+      }
+    }
+    
   }
 }
 ```
@@ -302,6 +331,7 @@ Some example queries for the fixed and fluid types are below.
 You can visit [gatsby-image](https://www.gatsbyjs.org/packages/gatsby-image/) for more information, and to learn about the different types of queries.
 
 ## Changelog
+- 0.6.0: Properly support product variations, accessible through the product_variations field on products.
 - 0.5.0: Added grouped_products_nodes field to products. Points to the node of each grouped product (or an empty array if not a grouped product). Grouped product nodes found under grouped_products_nodes rather than grouped_products to allow for backwards compatibility.
 - 0.4.0: Also map related products as product nodes, rather than just an array of IDs
 - 0.3.5: Gatsby Image related documentation c/o [Travis Reynolds](https://github.com/thetre97)

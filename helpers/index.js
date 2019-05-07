@@ -30,7 +30,46 @@ const processNode = (createContentDigest, node) => {
   return nodeData
 }
 
-// Create links between products and categories (bi-directional)
+/**
+ * Get product variations data for variable products and add to nodes.
+ * Asynchronous function.
+ *
+ * @param {array} nodes
+ * @param {object} WooCommerce
+ *
+ * @return {array} Processed nodes
+ */
+const asyncGetProductVariations = async (nodes, WooCommerce) => {
+  const processedNodes = []
+  for await (let node of nodes) {
+    if (node.__type === "wcProducts") {
+      if (node.variations && node.variations.length) {
+        /* 100 should be enough variations for most cases, but if you need more, this is
+          the place to edit */
+        const result = await WooCommerce.getAsync(
+          `products/${node.wordpress_id}/variations?per_page=100`
+        )
+        const resultJson = result.toJSON()
+        node.product_variations =
+          resultJson.statusCode === 200 ? JSON.parse(resultJson.body) : []
+      } else {
+        node.product_variations = []
+      }
+      processedNodes.push(node)
+    } else {
+      processedNodes.push(node)
+    }
+  }
+
+  return processedNodes
+}
+
+/**
+ * Create links between products and categories (bi-directional)
+ * @param {array} nodes
+ *
+ * @return {array} Processed nodes
+ */
 const mapProductsToCategories = nodes => {
   const categories = nodes.filter(
     node => node.__type === "wcProductsCategories"
@@ -66,6 +105,13 @@ const mapProductsToCategories = nodes => {
   })
 }
 
+/**
+ * Create links between products and tags (bi-directional)
+ *
+ * @param {array} nodes
+ *
+ * @return {array} Processed nodes
+ */
 const mapProductsToTags = nodes => {
   const tags = nodes.filter(node => node.__type === "wcProductsTags")
 
@@ -100,6 +146,13 @@ const mapProductsToTags = nodes => {
   })
 }
 
+/**
+ * Map nodes of related products to products
+ *
+ * @param {array} nodes
+ *
+ * @return {array} Processed nodes
+ */
 const mapRelatedProducts = nodes => {
   const products = nodes.filter(node => node.__type === "wcProducts")
 
@@ -123,6 +176,13 @@ const mapRelatedProducts = nodes => {
   })
 }
 
+/**
+ * Map nodes of each product in a grouped product to the parent product.
+ *
+ * @param {array} nodes
+ *
+ * @return {array} Processed nodes
+ */
 const mapGroupedProducts = nodes => {
   const products = nodes.filter(node => node.__type === "wcProducts")
 
@@ -146,8 +206,14 @@ const mapGroupedProducts = nodes => {
   })
 }
 
-// Turn multi part endpoints into camelCase
-// e.g. products/categories becomes productsCategories
+/**
+ * Turn multi part endpoints into camelCase
+ * i.e products/categories becomes productsCategories
+ *
+ * @param {string} name Non-normalised field name (e.g. products/categories)
+ *
+ * @return The camelCase field name
+ */
 const normaliseFieldName = name => {
   const parts = name.split("/")
   return parts.reduce((whole, partial) => {
@@ -254,4 +320,5 @@ module.exports = {
   mapProductsToTags,
   mapRelatedProducts,
   mapGroupedProducts,
+  asyncGetProductVariations,
 }

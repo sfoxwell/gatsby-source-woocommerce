@@ -7,6 +7,7 @@ const {
   mapProductsToTags,
   mapRelatedProducts,
   mapGroupedProducts,
+  asyncGetProductVariations,
 } = require("./helpers")
 
 exports.sourceNodes = async (
@@ -74,6 +75,7 @@ exports.sourceNodes = async (
       touchNode,
     })
 
+    nodes = await asyncGetProductVariations(nodes, WooCommerce)
     nodes = mapProductsToCategories(nodes)
     nodes = mapProductsToTags(nodes)
     nodes = mapRelatedProducts(nodes)
