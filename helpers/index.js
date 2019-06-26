@@ -302,12 +302,12 @@ const mapMediaToNodes = async ({
       }
 
       if (n.images && n.images.length) {
-        await n.images.map(async image => {
-          downloadMedia({
+        for (let image of n.images) {
+          await downloadMedia({
             image,
             ...commonParams,
           })
-        })
+        }
         return n
       } else if (n.image && n.image.id) {
         const { image } = n
