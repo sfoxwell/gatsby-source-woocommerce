@@ -331,6 +331,7 @@ Some example queries for the fixed and fluid types are below.
 You can visit [gatsby-image](https://www.gatsbyjs.org/packages/gatsby-image/) for more information, and to learn about the different types of queries.
 
 ## Changelog
+- 0.6.2: [Fix race condition when adding sharp images to products](https://github.com/pasdo501/gatsby-source-woocommerce/commit/e37d841c54227a9011cfc2f9b7e971e78b86a257)
 - 0.6.1: Add Gatsby Image support (localFile field) to product variations images.
 - 0.6.0: Properly support product variations, accessible through the product_variations field on products.
 - 0.5.0: Added grouped_products_nodes field to products. Points to the node of each grouped product (or an empty array if not a grouped product). Grouped product nodes found under grouped_products_nodes rather than grouped_products to allow for backwards compatibility.
