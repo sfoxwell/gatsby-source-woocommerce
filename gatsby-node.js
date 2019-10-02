@@ -24,6 +24,7 @@ exports.sourceNodes = async (
     fields,
     api_version = "wc/v1",
     per_page,
+    query_string_auth = false
   } = configOptions
 
   // set up WooCommerce node api tool
@@ -33,6 +34,7 @@ exports.sourceNodes = async (
     consumerSecret: api_keys.consumer_secret,
     wpAPI: true,
     version: api_version,
+    queryStringAuth: query_string_auth
   })
 
   // Fetch Node and turn our response to JSON
